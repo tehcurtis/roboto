@@ -1,0 +1,36 @@
+(in /Users/curtisedmond/projects/gems/roboto)
+** Invoke gem (first_time)
+** Invoke pkg/roboto-0.0.1.gem (first_time)
+** Invoke pkg (first_time)
+** Execute pkg
+** Invoke History.txt (first_time, not_needed)
+** Invoke Manifest.txt (first_time, not_needed)
+** Invoke PostInstall.txt (first_time, not_needed)
+** Invoke README.rdoc (first_time, not_needed)
+** Invoke Rakefile (first_time, not_needed)
+** Invoke config/website.yml.sample (first_time, not_needed)
+** Invoke features/development.feature (first_time, not_needed)
+** Invoke features/steps/common.rb (first_time, not_needed)
+** Invoke features/steps/env.rb (first_time, not_needed)
+** Invoke lib/roboto.rb (first_time, not_needed)
+** Invoke script/console (first_time, not_needed)
+** Invoke script/destroy (first_time, not_needed)
+** Invoke script/generate (first_time, not_needed)
+** Invoke script/txt2html (first_time, not_needed)
+** Invoke spec/roboto_spec.rb (first_time, not_needed)
+** Invoke spec/spec.opts (first_time, not_needed)
+** Invoke spec/spec_helper.rb (first_time, not_needed)
+** Invoke tasks/rspec.rake (first_time, not_needed)
+** Invoke test/test_helper.rb (first_time, not_needed)
+** Invoke test/test_roboto.rb (first_time, not_needed)
+** Invoke website/index.html (first_time, not_needed)
+** Invoke website/index.txt (first_time, not_needed)
+** Invoke website/javascripts/rounded_corners_lite.inc.js (first_time, not_needed)
+** Invoke website/stylesheets/screen.css (first_time, not_needed)
+** Invoke website/template.html.erb (first_time, not_needed)
+** Execute pkg/roboto-0.0.1.gem
+  Successfully built RubyGem
+  Name: roboto
+  Version: 0.0.1
+  File: roboto-0.0.1.gem
+** Execute gem
