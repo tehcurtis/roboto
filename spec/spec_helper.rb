@@ -221,3 +221,36 @@ NO_ACCESS = <<-TXT
  User-agent: *
  Disallow: /
 TXT
+
+BLOCK_ROBOTO1 = <<-TXT
+  User-agent: *
+  Disallow: /cgi/
+  Disallow: /gi/
+  Disallow: /library/nosearch/
+  Disallow: /zadz/
+  Disallow: /zdynahubz/
+  Disallow: /zeventsz/
+  
+  User-agent: mr-roboto
+  Disallow: /
+TXT
+
+BLOCK_ROBOTO2 = <<-TXT
+  User-agent: *
+  Disallow: /cgi/
+  Disallow: /gi/
+  Disallow: /library/nosearch/
+  Disallow: /zadz/
+  Disallow: /zdynahubz/
+  Disallow: /zeventsz/
+  
+  User-agent: mr-roboto*
+  Disallow: /mchammer/*
+  Disallow: /thisisabeat/youanttouch/
+  Disallow: /cant/touch/this.html
+TXT
+
+BLOCK_ROBOTO3 = <<-TXT
+  User-agent: mr-roboto
+  Disallow:
+TXT
