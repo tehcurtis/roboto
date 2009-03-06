@@ -2,7 +2,7 @@ require File.dirname(__FILE__)+'/../lib/roboto.rb'
 
 
 # from google.com no less
-ROBOTS_TXT = <<-TXT
+LONG_ROBOTS_TXT = <<-TXT
       User-agent: *
       Allow: /searchhistory/
       Disallow: /search
@@ -180,3 +180,44 @@ ROBOTS_TXT = <<-TXT
       Sitemap: http://www.google.com/hostednews/sitemap_index.xml
       
     TXT
+    
+MULTIPLE_AGENTS= <<-TXT
+  User-agent: *
+  Disallow: /cgi/
+  Disallow: /gi/
+  Disallow: /library/nosearch/
+  Disallow: /zadz/
+  Disallow: /zdynahubz/
+  Disallow: /zeventsz/
+  Disallow: /zfrequentz/
+  Disallow: /zhomez/
+  Disallow: /zimages70z/
+  Disallow: /zpicsz/
+  Disallow: /zscriptz/
+  Disallow: /zshare70z/
+  Disallow: /z/
+  Allow: /z/cg/vp.htm
+  Disallow: /check.htm
+  Disallow: /mevents.htm
+  Disallow: /mcurrent.htm
+  Disallow: /README.txt
+  Disallow: /sitesearch.htm
+  Disallow: /testmyboards.htm
+
+  Disallow: /clk.about.com/
+
+  User-agent: Mediapartners-Google*
+  Disallow:
+
+  User-agent: Yahoo-MMCrawler*
+  Allow: /z/cg/
+
+  User-agent: BecomeBot
+  Crawl-Delay: 10
+TXT
+
+
+NO_ACCESS = <<-TXT
+ User-agent: *
+ Disallow: /
+TXT

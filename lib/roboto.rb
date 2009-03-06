@@ -22,16 +22,6 @@ module Roboto
       return false unless !dest.empty? && dest.is_a?(String)
       !(dest =~ /http:\/\//).nil? && !(dest =~ /(.*\.[a-z]{2})/).nil?
     end
-    
-    
-    def pull_robots_txt(uri, user_agent)
-      @robots_txt = ''
-      options = {}
-      options['User-Agent'] = user_agent if user_agent
-      open(uri, options) {|file|
-        @robots_txt = file.read
-      }
-    end
 
   end
   
