@@ -15,14 +15,18 @@ module Roboto
       # this may need to be broken off into it's own object if things get hairy
       self.perms = {}
       
-      self.user_agent = options['User-agent']
+      self.user_agent = options['User-agent'] if options
       
       # set the path to the robots.txt file from the original given uri
       self.path = get_robots_txt_path(@destination)
       
       # grab the content out of the robots.txt and keep it around for later
       # TODO: check for 404s, Timeouts, etc
-      content = open(@path, options).read
+      begin
+        content = open(@path, options).read
+      rescue
+        content = ''
+      end
       
       # parse the contents what we took out of the robots.txt file
       # and pack it into the hash for future reference
@@ -71,7 +75,7 @@ module Roboto
       base_uri + '/robots.txt'
     end
         
-    def everyone_allowed?
+    def everyone_allowed_everywhere?
       # the robots.txt was empty or not found at all
       # in either case, this site is open for all bots
       return true if @perms.empty? 

@@ -1,7 +1,6 @@
 require File.expand_path(File.dirname(__FILE__)+'/spec_helper.rb')
 
 class TestClass
-  include Roboto::OpenR
 end
 
 describe Roboto, "#open_r" do
@@ -10,24 +9,23 @@ describe Roboto, "#open_r" do
     @tc = TestClass.new
   end
   
-  
   it 'should return a blank string if not given a valid uri' do
-    @tc.open_r("junk").should == ''
+    @tc.open_r("junk").should be_nil
   end
   
   it 'should return a blank string if not given a valid uri' do
-    @tc.open_r('junktrash').should == ''
+    @tc.open_r('junktrash').should be_nil
   end  
   describe Roboto, "open_r in general" do
     before do
       @dest = 'http://example.com/best/page/evar.html'
       @faux_txt = mock('i am a robot')     
-      Roboto::RobotsTxt.stub!(:new).with(@dest, nil).and_return(@faux_txt) 
+      Roboto::RobotsTxt.stub!(:new).with(@dest, {}).and_return(@faux_txt) 
       @faux_txt.stub!(:allows?).and_return(false)
     end
-    
+
     it 'should grab the robots txt when given a valid uri' do
-      Roboto::RobotsTxt.should_receive(:new).with(@dest, nil).and_return(@faux_txt)
+      Roboto::RobotsTxt.should_receive(:new).with(@dest, {}).and_return(@faux_txt)
       @tc.open_r(@dest)
     end
     
@@ -43,35 +41,4 @@ describe Roboto, "#open_r" do
       @tc.open_r(@dest)
     end
   end
-end
-
-describe Roboto, '#uri_valid?' do
-  before do
-    @blk = lambda {|str| TestClass.new.uri_valid?(str)}
-  end
-  
-  it "should return false for 'example' " do
-    @blk.call('example').should be_false
-  end
-  
-  it "should return false for 'example.com' " do
-    @blk.call('example.com').should be_false
-  end
-  
-  it "should return true for example.co.uk" do
-    @blk.call('example.co.uk').should be_false
-  end
-  
-  it "should return false for htp://example.com" do
-    @blk.call('http://example.com').should be_true
-  end
-  
-  it "should return true for http://example.co.uk" do
-    @blk.call('http://example.co.uk').should be_true
-  end
-  
-  it "should return true for http://www.example.com" do
-    @blk.call('http://www.example.com').should be_true
-  end
-  
 end
