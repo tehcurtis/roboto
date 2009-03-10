@@ -1,6 +1,23 @@
 %w[rubygems rake rake/clean fileutils newgem rubigen].each { |f| require f }
 require File.dirname(__FILE__) + '/lib/roboto'
 
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |s|
+    s.name = "Roboto"
+    s.executables = "roboto"
+    s.summary = "A simple robots.txt parser and wrapper method for open-uri's open that respects robot.txt files"
+    s.email = "curtis.edmond@gmail.com"
+    s.homepage = "http://github.com/tehcurtis/roboto"
+    s.description = "A simple robots.txt parser and wrapper method for open-uri's open that respects robot.txt files"
+    s.authors = ["Curtis Edmond"]
+    s.files =  FileList["[A-Z]*", "{lib,spec}/**/*", ]
+  end
+rescue LoadError
+  puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
+end
+
+
 # Generate all the Rake tasks
 # Run 'rake -T' to see list of generated tasks (from gem root directory)
 $hoe = Hoe.new('roboto', Roboto::VERSION::String) do |p|
