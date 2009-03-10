@@ -5,7 +5,7 @@ module Roboto
   module VERSION #:nodoc:
     Major = 0
     Minor = 0
-    Tiny = 4
+    Tiny = 5
     
     String = [Major, Minor, Tiny].join('.')
   end

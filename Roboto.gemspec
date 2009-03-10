@@ -7,7 +7,6 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Curtis Edmond"]
   s.date = %q{2009-03-10}
-  s.default_executable = %q{roboto}
   s.description = %q{A simple robots.txt parser and wrapper method for open-uri's open that respects robot.txt files}
   s.email = %q{curtis.edmond@gmail.com}
   s.executables = ["roboto"]
