@@ -1,4 +1,5 @@
-== 0.0.1 2008-12-21
+== 0.0.4 2008-12-21
 
 * 1 major enhancement:
-  * Initial release
+  * Added some basic documentation.
+  * RobotsTxt now stores any errors accrued when trying to access the robots.txt file 

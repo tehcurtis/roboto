@@ -3,29 +3,30 @@ module Roboto
     require 'open-uri'
     
     attr_accessor :perms, :path, :sitemaps, :destination, :user_agent, :errors
-    # a few sample options are:
-    # 'User-Agent' => @@config_agent, 
-    # 'If-None-Match' => site.etag,
-    # 'If-Modified-Since' => site.last_modified.rfc2822
+    
+    # Takes the given destination uri and tries to find and store the content
+    # from the given site's robots.txt file.
+    # Pass your User-agent in the options hash to be extra carefup6
     def initialize(destination, options={})
       @destination = destination
       
+      # If a robots.txt defines any sitemaps
       self.sitemaps = []
       
-      # This is where we'll store the rules in the robots.txt
-      # in a hash with a key for each user-agent
+      # Holds the rules found in a robots.txt file in 
+      # a hash where the base keys are the user-agents
       self.perms = {}
       
       # Store the passed in user-agent if one was passed in
-      new_options = options.inject({}) {|h, (k, v)|  h[k.downcase] = v; h }
-      self.user_agent = new_options.include?('user-agent') ? new_options['user-agent'] : ''
+      self.user_agent = options['User-agent'] if options
       
       # Set the path to the robots.txt file from the original given uri
       self.path = get_robots_txt_path(@destination)
       
-      # Try to get the content of the robots.txt
+      # Errors that we get when trying to access a site's robots.txt file
       self.errors = ''
       
+      # Try to grab the robots.txt
       begin
         content = open(@path, options).read
       rescue => e
@@ -33,17 +34,24 @@ module Roboto
         content = ''
       end
       
-      # parse the contents what we took out of the robots.txt file
-      # and pack it into the hash for future reference
+      # Take the contents of the robots.txt and store it's content
       self.perms = store_permissions(content)
     end
     
+    # Checks the given uri against the rules from the robots.txt file to see
+    # if the given uri is ok to access
     def allows?(uri)
       return true if everyone_allowed_everywhere?
       return false if noone_allowed_anywhere
       return true if current_agent_allowed?(uri)   
     end
 
+    # Takes the given robots.txt content and stores the rules it contains in a hash
+    # where the keys are the found user-agents
+    # example: {'googlebot' => {'crawl-delay'=>[], 
+                            # 'request-rate'=>[], 
+                            # 'allow'=>['/sitemap.xml', '/seekrits'], 
+                            # "disallow"=>["/index.xml", "/excerpts.xml"] }
     def store_permissions(content)
       agents = {}
       rules = content.scan /\s*(.*?)$/mi
@@ -72,33 +80,39 @@ module Roboto
       agents
     end
    
+   # Sets the path where the robots.txt file will most
+   # likely be found at.
     def get_robots_txt_path(uri)
-      # TODO: take into account subdomains, each subdomain has it's own robots.txt
       prefix = uri.include?('https://') ? 'https://' : 'http://'
       prefix = 'http://' if prefix.nil?
       base_uri = prefix + URI.parse(uri).host
       base_uri + '/robots.txt'
     end
-        
+    
+    # Checks to see if there's a rule that allows
+    # everyone in.
     def everyone_allowed_everywhere?
       # the robots.txt was empty or not found at all
       # in either case, this site is open for all bots
       return true if @perms.empty? 
       
+      # check to see if there's a rule to allow everything
       return true if @perms['*'] && @perms['*']['allow'].find {|r| r == '/'}
       
       # if the disallow is blank, then nothing is blocked
       return true if @perms['*'] && @perms['*']['disallow'].find {|r| r == ''}
-  
+      
       false
     end
     
-    
+    # Checks for a rule that blocks everyone from everything.
     def noone_allowed_anywhere
-      # this just kind of feels wrong
+      # checks for Disallow: /
       !(self.perms['*'] && self.perms['*']['disallow'].find {|r| r == '/'}).nil?
     end
     
+    # Checks to see if there's a specific rule for the current user-agent
+    # and if so, can the user-agent access the given uri.
     def current_agent_allowed?(uri)
       # be a good net citizen and set your user-agent!
       if @user_agent.nil? || @user_agent.empty?
@@ -109,8 +123,7 @@ module Roboto
         return false
       end
       
-      # support name* and name
-      # this will also bring us the user-agent * and any matches we find
+      # This will also bring us the user-agent * (for everyone) and any matches we find
       user_agents = @perms.keys.select {|k| (@user_agent == k) || (@user_agent.include?(k.gsub(/(\*.*)/, ''))) }
       user_agents.each do |ua|
         @perms[ua]['disallow'].each do |r|
@@ -125,7 +138,7 @@ module Roboto
     end
     
     private
-    def log(msg)
+    def log(msg) 
       RAILS_DEFAULT_LOGGER.warn(msg) if defined? RAILS_DEFAULT_LOGGER
       Merb.logger(msg) if defined? Merb
     end
