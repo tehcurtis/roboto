@@ -68,26 +68,35 @@ describe Roboto::RobotsTxt, 'init' do
     it 'should return false if the agent is set and there is a rule that disallows access to the destination' do
       @obj.perms = @obj.store_permissions(BLOCK_ROBOTO2)
       @obj.user_agent = 'mr-roboto v1.2'
-      @obj.current_agent_allowed?('http://thisishowweroll.com/mchammer/seeekrit/lyrics').should be_false
+      @obj.current_agent_allowed?('http://thisishowwerolldotcom/mchammer/seeekrit/lyrics').should be_false
     end
     
     it 'should return false if the agent is set and there is a rule that disallows access to the destination' do
       @obj.perms = @obj.store_permissions(BLOCK_ROBOTO2)
       @obj.user_agent = 'mr-roboto v1.2'
-      @obj.current_agent_allowed?('http://thisishowweroll.com/mchammer/seeekrit/cant/touch/this.html').should be_false
+      @obj.current_agent_allowed?('http://thisishowwerolldotcom/mchammer/seeekrit/cant/touch/this.html').should be_false
     end
     
     it do
       @obj.perms = @obj.store_permissions(BLOCK_ROBOTO2)
       @obj.user_agent = 'mr-roboto v1.2'
-      @obj.current_agent_allowed?('http://thisishowweroll.com/a/seeekrit/cant/touch/this.html').should be_false
+      @obj.current_agent_allowed?('http://thisishowwerolldotcom/a/seeekrit/cant/touch/this.html').should be_false
     end
     
-    it  do
+    it do
       @obj.perms = @obj.store_permissions(BLOCK_ROBOTO3)
       @obj.user_agent = 'mr-roboto v1.2'
-      @obj.current_agent_allowed?('http://thisishowweroll.com/thisisabeat/youanttouch/seeekrit/cant/touch/oober.php').should be_true
+      @obj.current_agent_allowed?('http://thisishowwerolldotcom/thisisabeat/youanttouch/seeekrit/cant/touch/oober.php').should be_true
     end
+    
+    it do
+      @obj.user_agent = ''
+      @obj.should_receive(:log).exactly(2).times
+      @obj.current_agent_allowed?('http://someurlhere/').should == false
+      @obj.user_agent = nil      
+      @obj.current_agent_allowed?('http://someurlhere/').should == false
+    end
+    
   end
   
   describe Roboto::RobotsTxt, '#allows?' do

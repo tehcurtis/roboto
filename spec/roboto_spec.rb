@@ -16,10 +16,12 @@ describe Roboto, "#open_r" do
   it 'should return a blank string if not given a valid uri' do
     @tc.open_r('junktrash').should be_nil
   end  
+
   describe Roboto, "open_r in general" do
     before do
       @dest = 'http://example.com/best/page/evar.html'
-      @faux_txt = mock('i am a robot')     
+      @faux_txt = mock('i am a robot') 
+      @faux_txt.stub!(:errors).and_return('')
       Roboto::RobotsTxt.stub!(:new).with(@dest, {}).and_return(@faux_txt) 
       @faux_txt.stub!(:allows?).and_return(false)
     end

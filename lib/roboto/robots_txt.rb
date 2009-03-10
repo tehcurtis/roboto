@@ -1,7 +1,8 @@
 module Roboto
   class RobotsTxt
     require 'open-uri'
-    attr_accessor :perms, :path, :sitemaps, :destination, :user_agent
+    
+    attr_accessor :perms, :path, :sitemaps, :destination, :user_agent, :errors
     # a few sample options are:
     # 'User-Agent' => @@config_agent, 
     # 'If-None-Match' => site.etag,
@@ -11,20 +12,24 @@ module Roboto
       
       self.sitemaps = []
       
-      # we'll try storing this data in a hash
-      # this may need to be broken off into it's own object if things get hairy
+      # This is where we'll store the rules in the robots.txt
+      # in a hash with a key for each user-agent
       self.perms = {}
       
-      self.user_agent = options['User-agent'] if options
+      # Store the passed in user-agent if one was passed in
+      new_options = options.inject({}) {|h, (k, v)|  h[k.downcase] = v; h }
+      self.user_agent = new_options.include?('user-agent') ? new_options['user-agent'] : ''
       
-      # set the path to the robots.txt file from the original given uri
+      # Set the path to the robots.txt file from the original given uri
       self.path = get_robots_txt_path(@destination)
       
-      # grab the content out of the robots.txt and keep it around for later
-      # TODO: check for 404s, Timeouts, etc
+      # Try to get the content of the robots.txt
+      self.errors = ''
+      
       begin
         content = open(@path, options).read
-      rescue
+      rescue => e
+        self.errors << "*"*5 + ' Roboto: ' + e
         content = ''
       end
       
@@ -95,9 +100,12 @@ module Roboto
     end
     
     def current_agent_allowed?(uri)
-      # no soup for those who don't set their user-agent
-      if @user_agent.nil?
+      # be a good net citizen and set your user-agent!
+      if @user_agent.nil? || @user_agent.empty?
         # log to logger that the user agent wasn't set
+        log('*'*5 + ' ROBOTO: cannot determine if your bot is allowed since you did not ser the user-agent. 
+        Set it in the open_r options hash like so
+        \'user-agent\' => \'YOUR BOT\'s NAME\' and try again.')
         return false
       end
       
@@ -111,8 +119,15 @@ module Roboto
         end
       end
       
-      # the uri isn't specifially disallowed for this user-agent so 
+      # the uri isn't specifially disallowed for this user-agent 
+      # so let it through
       true
+    end
+    
+    private
+    def log(msg)
+      RAILS_DEFAULT_LOGGER.warn(msg) if defined? RAILS_DEFAULT_LOGGER
+      Merb.logger(msg) if defined? Merb
     end
   end
 end
