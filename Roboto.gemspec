@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.email = %q{curtis.edmond@gmail.com}
   s.executables = ["roboto"]
   s.extra_rdoc_files = ["README.rdoc"]
-  s.files = ["History.txt", "Manifest.txt", "PostInstall.txt", "Rakefile", "README.rdoc", "VERSION.yml", "lib/roboto", "lib/roboto/robots_txt.rb", "lib/roboto.rb", "spec/roboto_spec.rb", "spec/robots_txt_spec.rb", "spec/spec.opts", "spec/spec_helper.rb", "bin/roboto"]
+  s.files = ["History.txt", "Manifest.txt", "PostInstall.txt", "Rakefile", "README.rdoc", "Roboto.gemspec", "VERSION.yml", "lib/roboto", "lib/roboto/robots_txt.rb", "lib/roboto.rb", "spec/roboto_spec.rb", "spec/robots_txt_spec.rb", "spec/spec.opts", "spec/spec_helper.rb", "bin/roboto"]
   s.has_rdoc = true
   s.homepage = %q{http://github.com/tehcurtis/roboto}
   s.rdoc_options = ["--inline-source", "--charset=UTF-8"]
