@@ -30,7 +30,7 @@ $hoe = Hoe.new('roboto', Roboto::VERSION::String) do |p|
   # ]
   p.extra_dev_deps = [
     ['newgem', ">= #{::Newgem::VERSION}"]
-  ]
+  ] 
   
   p.clean_globs |= %w[**/.DS_Store tmp *.log]
   path = (p.rubyforge_name == p.name) ? p.rubyforge_name : "\#{p.rubyforge_name}/\#{p.name}"

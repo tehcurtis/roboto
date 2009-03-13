@@ -1,26 +1,20 @@
 = roboto
 
-* FIX (url)
+http://github.com/tehcurtis/roboto/
 
 == DESCRIPTION:
 
-FIX (describe your package)
+A robots.txt parser that comes packing a simple wrapper method for OpenURI's "open" method. The wrapper method, "open_r",
+respects the target site's robots.txt.
 
-== FEATURES/PROBLEMS:
+== EXAMPLES:
 
-* FIX (list of features or problems)
-
-== SYNOPSIS:
-
-  FIX (code sample of usage)
-
-== REQUIREMENTS:
-
-* FIX (list of requirements)
+require 'roboto'
+data = open_r("http://yourawesomesite.com/can/i/access/this").read
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+* gem install 'tehcurtis-roboto'
 
 == LICENSE:
 
