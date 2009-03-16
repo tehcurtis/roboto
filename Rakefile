@@ -5,7 +5,6 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |s|
     s.name = "Roboto"
-    s.executables = "roboto"
     s.summary = "A simple robots.txt parser and wrapper method for open-uri's open that respects robot.txt files"
     s.email = "curtis.edmond@gmail.com"
     s.homepage = "http://github.com/tehcurtis/roboto"
